@@ -4,6 +4,7 @@ using ConsoleApp31.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp31.Migrations
 {
     [DbContext(typeof(appdbcontext))]
-    partial class appdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250315003551_ggjj")]
+    partial class ggjj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +88,9 @@ namespace ConsoleApp31.Migrations
                     b.Property<int>("crs_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("courseid")
+                        .HasColumnType("int");
+
                     b.Property<string>("evaluation")
                         .HasColumnType("nvarchar(max)");
 
@@ -92,6 +98,8 @@ namespace ConsoleApp31.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ins_id", "crs_id");
+
+                    b.HasIndex("courseid");
 
                     b.HasIndex("instructorid");
 
@@ -143,6 +151,9 @@ namespace ConsoleApp31.Migrations
                     b.Property<int>("crs_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("courseid")
+                        .HasColumnType("int");
+
                     b.Property<int?>("grade")
                         .HasColumnType("int");
 
@@ -150,6 +161,8 @@ namespace ConsoleApp31.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("st_id", "crs_id");
+
+                    b.HasIndex("courseid");
 
                     b.HasIndex("studentid");
 
@@ -226,6 +239,10 @@ namespace ConsoleApp31.Migrations
 
             modelBuilder.Entity("ConsoleApp31.entities.instcourse", b =>
                 {
+                    b.HasOne("ConsoleApp31.entities.course", null)
+                        .WithMany("instcourses")
+                        .HasForeignKey("courseid");
+
                     b.HasOne("ConsoleApp31.entities.instructor", null)
                         .WithMany("instructors")
                         .HasForeignKey("instructorid");
@@ -244,6 +261,10 @@ namespace ConsoleApp31.Migrations
 
             modelBuilder.Entity("ConsoleApp31.entities.stcourse", b =>
                 {
+                    b.HasOne("ConsoleApp31.entities.course", null)
+                        .WithMany("stcourses")
+                        .HasForeignKey("courseid");
+
                     b.HasOne("ConsoleApp31.entities.student", null)
                         .WithMany("stcourses")
                         .HasForeignKey("studentid");
@@ -256,6 +277,13 @@ namespace ConsoleApp31.Migrations
                         .HasForeignKey("dept_id");
 
                     b.Navigation("department");
+                });
+
+            modelBuilder.Entity("ConsoleApp31.entities.course", b =>
+                {
+                    b.Navigation("instcourses");
+
+                    b.Navigation("stcourses");
                 });
 
             modelBuilder.Entity("ConsoleApp31.entities.department", b =>

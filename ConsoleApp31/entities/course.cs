@@ -13,10 +13,10 @@ namespace ConsoleApp31.entities
         public string name { get; set; }
         public string? description { get; set; }
         public int? duration { get; set; }
-        public ICollection<stcourse> stcourses { get; set; }   =new HashSet<stcourse>();
+        //public ICollection<stcourse> stcourses { get; set; }   =new HashSet<stcourse>();
         [ForeignKey(nameof(topic))]
         public int ? topic_id { get; set; }
         public topic topic { get; set; }
-        public ICollection<instcourse> instcourses { get; set; } = new HashSet<instcourse>();
+        //public ICollection<instcourse> instcourses { get; set; } = new HashSet<instcourse>();
     }
 }

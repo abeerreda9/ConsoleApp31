@@ -15,18 +15,20 @@ namespace ConsoleApp31.data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=.;Database=efiti;Trusted_connection=True;Encrypt=false;");
+            optionsBuilder//.UseLazyLoadingProxies()
+                .UseSqlServer("server=.;Database=efiti;Trusted_connection=True;Encrypt=false;");
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<studentdepartment>().ToView("departmentstudent");
         }
         public DbSet<student> students { get; set; }
         public DbSet<department> department { get; set; }
         public DbSet<instructor> instructors { get; set; }
         public DbSet<course> course { get; set; }
         public DbSet<topic> topic { get; set; }
-
+        public static object Department { get; internal set; }
     }
 }
